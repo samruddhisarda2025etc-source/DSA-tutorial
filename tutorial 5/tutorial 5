@@ -1,0 +1,91 @@
+#include <stdio.h>
+#define MAX 100
+int stack[MAX];
+int top=-1;
+void push(int value)
+{
+    if(top==MAX-1)
+    {
+        printf("The Stack is full");
+    }
+    else
+    {
+        stack[++top]=value;
+        printf("Pushed %d to stack \n",value);
+    }
+}
+void pop()
+{
+    if (top == -1)
+    {
+        printf("The stack is empty\n");
+    }
+    else
+    {
+        printf("Popped value from stack: %d\n", stack[top--]);
+    }
+}
+void peek()
+{
+    if (top == -1)
+    {
+        printf("The stack is empty\n");
+    }
+    else
+    {
+        printf("Peek value from stack: %d\n", stack[top]);
+    }
+}
+
+void display()
+{
+    int i;
+
+    if (top == -1)
+    {
+        printf("The stack is empty\n");
+    }
+    else
+    {
+        printf("Stack elements are: ");
+
+        for (i =0;i<=top;i++)
+        {
+            printf("%d ", stack[i]);
+        }
+
+        printf("\n");
+    }
+}
+int main()
+{
+    int n, i, value;
+
+    printf("Enter number of elements in stack: ");
+    scanf("%d", &n);
+
+    if (n > MAX)
+    {
+        printf("Maximum stack size is %d\n", MAX);
+        return 1;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        printf("Enter element %d: ", i + 1);
+        scanf("%d", &value);
+        push(value);
+    }
+    printf("\n");
+    display();
+
+    printf("\n");
+    peek();
+
+    printf("\n");
+    pop();
+
+    printf("\n");
+    display();
+    return 0;
+}    
