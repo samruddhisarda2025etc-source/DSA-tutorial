@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+struct node *top = NULL;
+void push()
+{
+    struct node *newnode;
+    int value;
+    newnode = (struct node *)malloc(sizeof(struct node));
+    if (newnode == NULL)
+    {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+    printf("Enter element to push: ");
+    if (scanf("%d", &value) != 1)
+    {
+        printf("Invalid input!\n");
+        free(newnode);
+        return;
+    }
+    newnode->data = value;
+    newnode->next = top;
+    top = newnode;
+    printf("%d pushed into the stack.\n", value);
+}
+void pop()
+{
+    struct node *temp;
+    if (top == NULL)
+    {
+        printf("Stack Underflow! Stack is empty.\n");
+        return;
+    }
+    temp = top;
+    printf("Popped element: %d\n", temp->data);
+    top = top->next;
+    free(temp);
+}
+void display()
+{
+    struct node *temp;
+
+    if (top == NULL)
+    {
+        printf("Stack is empty.\n");
+        return;
+    }
+    temp = top;
+    printf("Stack elements (Top to Bottom):\n");
+    while (temp != NULL)
+    {
+        printf("%d\n", temp->data);
+        temp = temp->next;
+    }
+}
+void freeStack()
+{
+    struct node *temp;
+    while (top != NULL)
+    {
+        temp = top;
+        top = top->next;
+        free(temp);
+    }
+}
+int main()
+{
+    int n, i, value, choice;
+    struct node *newnode;
+    printf("Enter number of initial elements: ");
+    if (scanf("%d", &n) != 1 || n < 0)
+    {
+        printf("Invalid number of elements!\n");
+        return 1;
+    }
+    printf("Enter %d elements (Bottom to Top):\n", n);
+    for (i = 0; i < n; i++)
+    {
+        if (scanf("%d", &value) != 1)
+        {
+            printf("Invalid input!\n");
+            freeStack();
+            return 1;
+        }
+        newnode = (struct node *)malloc(sizeof(struct node));
+        if (newnode == NULL)
+        {
+            printf("Memory allocation failed!\n");
+            freeStack();
+            return 1;
+        }
+        newnode->data = value;
+        newnode->next = top;
+        top = newnode;
+    }
+    do
+    {
+        printf("\n--- STACK MENU ---\n");
+        printf("1. Push\n");
+        printf("2. Pop (Remove Top Element)\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("Invalid input!\n");
+            freeStack();
+            return 1;
+        }
+        switch (choice)
+        {
+            case 1:
+                push();
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting Stack program.\n");
+                break;
+            default:
+                printf("Invalid choice!\n");
+        }
+    } while (choice != 4);
+    freeStack();
+    return 0;
+}
